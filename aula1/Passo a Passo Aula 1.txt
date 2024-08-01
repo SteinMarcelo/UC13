@@ -1,0 +1,103 @@
+1- npm install express body-parser mysql2 dotenv
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+2- npm install typescript --save-dev
+---------------------------------------------------------------------------------------------------
+3- npm install @types/node @types/express @types/body-parser @types/mysql @types/dotenv --save-dev
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+4- npx tsc --init
+
+
+tsconfig.json:
+"compilerOptions": {
+"target": "es6",
+"module": "commonjs",
+"outDir": "dist",
+"strict": true,
+"esModuleInterop": true,
+"experimentalDecorators": true,
+"emitDecoratorMetadata": true,
+}
+
+
+packjson.json:
+"scripts": {
+"start": "tsc && node dist/app.js"
+}
+
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+5- Criar arquivo ts com as informações do exemplo:
+
+
+const express = require('express')
+const app = express()
+const port = 3000
+
+app.get('/', (req, res) => {
+  res.send('Hello World!')
+})
+
+app.listen(port, () => {
+  console.log(`Example app listening on port ${port}`)
+})
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+6- Transpilar para JS com o comando:
+npx tsc nomedoarquivo.ts
+
+* Depois desse comando irá criar um arquivo em js na pasta
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+7- Rodar com o comando
+
+node nomedoarquivo.js
+
+* Isso irá fazer com que o site rode na porta definida na instrução 5
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+8- Instalar e iniciar o Prisma usado para fazer a conexão com o banco de dados:
+
+npm install @prisma/client prisma
+
+npx prisma init
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+9- Ajustar arquivo .env que foi criado na pasta com suas informações de conexão com o banco de dados.
+
+DATABASE_URL="mysql://usuariodobancodedados:senhadobancodedados@localhost:3306/mydb?schema=public"
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+10- Ajustar dentro da pasta prisma o arquivo schema.prisma
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("localhost:3306/detran")																								
+}
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+11- Criar uma pasta chamda src, dentro desta pasta criar o arquivo app.ts
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+12- No arquivo app.ts adicionar
+
+
+import { PrismaClient, Prisma} from '@prisma/client'
+
+const prisma = new PrismaClient()
+
+const users = await prisma.user.findMany()
+
+console.log(users)
+//Se tiver erro no import tente reinstalar o prisma com o comando 
+import { PrismaClient, Prisma} from '@prisma/client'
+
+const prisma = new PrismaClient()
+
+const users = await prisma.user.findMany()
+
+console.log(users)
+
